@@ -1,9 +1,10 @@
 ---
 - hosts: default
-  gather_facts: false
+  user: vagrant
+  sudo: yes
   vars:
     bamboo:    atlassian-bamboo
-    bamboover: 5.4
+    bamboover: 5.6.2
     dlpath:    software/bamboo/downloads/binary
     tmp:       /var/tmp
     installto: /opt
@@ -37,6 +38,8 @@
 
     - name: Ensure mysql server running
       service: name=mysqld state=started enabled=yes
+
+    - debug: msg=http://www.atlassian.com/{{ dlpath }}/{{ bamboo }}-{{ bamboover }}.tar.gz
 
     - name: Fetch Bamboo install
       get_url:
